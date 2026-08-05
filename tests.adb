@@ -4,6 +4,7 @@
 
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Assertions; use Ada.Assertions;
+with Ada.Containers; use Ada.Containers;
 with Nagle; use Nagle;
 
 procedure Tests is
