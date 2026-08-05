@@ -7,7 +7,6 @@
 --   4. Interaction with Delayed ACK (simulated)
 
 with Ada.Containers.Vectors;
-with Ada.Exceptions;
 
 package Nagle is
    -- Maximum Segment Size (default: 1460 bytes for Ethernet)
@@ -16,12 +15,13 @@ package Nagle is
    -- Window size (current TCP window in bytes)
    type Window_Size_Type is range 0 .. 65_535;
 
-   -- Buffer to accumulate small packets
-   type Buffer_Type is array (Positive range <>) of Byte;
+   -- Byte type for packet data
    type Byte is mod 256;
 
+   -- Buffer to accumulate small packets (dynamic array)
+   type Buffer_Type is array (Positive range <>) of Byte;
+
    -- State of the sender
-   type Sender_State is (Idle, Waiting_For_ACK, Sending);
    type Unacknowledged_Flag is (No_Unacked, Has_Unacked);
 
    -- Exception for invalid inputs
