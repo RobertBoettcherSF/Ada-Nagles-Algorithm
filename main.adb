@@ -21,16 +21,30 @@ begin
    Nagle.Original_Nagle(MSS, Window_Size, Unacked, Data, Buffer, Send_Now, Packet_To_Send);
    Put_Line("  Send_Now: " & Boolean'Image(Send_Now));
    Put_Line("  Packet Size: " & Integer'Image(Packet_To_Send.Size));
+   Free_Packet(Packet_To_Send);
    New_Line;
 
    -- Minshall Nagle
    Put_Line("Minshall Nagle:");
    Buffer.Clear;
    Unacked := Has_Unacked;
-   Buffer.Append((Data => Data, Size => 10));
+   declare
+      Buffered_Packet : Packet;
+   begin
+      Buffered_Packet.Data := new Buffer_Type(Data'Range);
+      Buffered_Packet.Data.all := Data;
+      Buffered_Packet.Size := Data'Length;
+      Buffer.Append(Buffered_Packet);
+   end;
    Nagle.Minshall_Nagle(MSS, Window_Size, Unacked, Data, Buffer, Send_Now, Packet_To_Send);
    Put_Line("  Send_Now: " & Boolean'Image(Send_Now));
    Put_Line("  Packet Size: " & Integer'Image(Packet_To_Send.Size));
+   Free_Packet(Packet_To_Send);
+   -- Free buffered packets
+   for Pkg of Buffer loop
+      Free_Packet(Pkg);
+   end loop;
+   Buffer.Clear;
    New_Line;
 
    -- No Nagle
@@ -38,4 +52,5 @@ begin
    Nagle.No_Nagle(Data, Send_Now, Packet_To_Send);
    Put_Line("  Send_Now: " & Boolean'Image(Send_Now));
    Put_Line("  Packet Size: " & Integer'Image(Packet_To_Send.Size));
+   Free_Packet(Packet_To_Send);
 end Main;

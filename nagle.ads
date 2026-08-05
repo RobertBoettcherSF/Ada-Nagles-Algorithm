@@ -21,15 +21,18 @@ package Nagle is
    -- Buffer to accumulate small packets (dynamic array)
    type Buffer_Type is array (Positive range <>) of Byte;
 
+   -- Access type for dynamic buffer data
+   type Buffer_Access is access Buffer_Type;
+
    -- State of the sender
    type Unacknowledged_Flag is (No_Unacked, Has_Unacked);
 
    -- Exception for invalid inputs
    Invalid_Input_Error : exception;
 
-   -- Packet structure
+   -- Packet structure (using access type for unconstrained array)
    type Packet is record
-      Data : Buffer_Type;
+      Data : Buffer_Access;
       Size : Natural;
    end record;
 
@@ -88,5 +91,8 @@ package Nagle is
       Time_Elapsed  : in     Natural;  -- Simulated time in ms
       ACK_Timeout   : in     Natural := 500  -- Default Delayed ACK timeout
    );
+
+   -- Helper: Free memory for a Packet
+   procedure Free_Packet (Pkg : in out Packet);
 
 end Nagle;
