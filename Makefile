@@ -9,7 +9,7 @@ all: $(BIN_DIR)/nagle_demo $(BIN_DIR)/tests
 
 $(BIN_DIR)/nagle_demo: nagle.gpr nagle.ads nagle.adb main.adb
 	mkdir -p $(OBJ_DIR) $(BIN_DIR)
-	$(GNAT) -P nagle.gpr -o $(BIN_DIR)/nagle_demo
+	$(GNAT) -P nagle.gpr -o $(BIN_DIR)/nagle_demo main.adb
 
 $(BIN_DIR)/tests: tests.adb nagle.ads nagle.adb
 	mkdir -p $(OBJ_DIR) $(BIN_DIR)
