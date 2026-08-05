@@ -5,8 +5,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Nagle; use Nagle;
 
 procedure Main is
-   MSS : constant MSS_Type := 1460;
-   Window_Size : constant Window_Size_Type := 2920;
+   MSS : constant Natural := 1460;
+   Window_Size : constant Natural := 2920;
    Unacked : Unacknowledged_Flag := No_Unacked;
    Buffer : Packet_Vectors.Vector;
    Send_Now : Boolean;

@@ -31,7 +31,7 @@ package body Nagle is
    -- Helper: Check if buffer has enough data for MSS
    function Has_Enough_Data (
       Buffer : Packet_Vectors.Vector;
-      MSS    : MSS_Type
+      MSS    : Natural
    ) return Boolean is
    begin
       return Total_Buffered_Size(Buffer) >= MSS;
@@ -40,7 +40,7 @@ package body Nagle is
    -- Helper: Merge buffered packets into a single MSS-sized packet
    function Merge_Packets (
       Buffer : Packet_Vectors.Vector;
-      MSS    : MSS_Type
+      MSS    : Natural
    ) return Packet is
       Merged_Data : Buffer_Access := new Buffer_Type(1 .. MSS);
       Current_Index : Positive := 1;
@@ -66,8 +66,8 @@ package body Nagle is
 
    -- Original Nagle's Algorithm (RFC 896)
    procedure Original_Nagle (
-      MSS           : in     MSS_Type;
-      Window_Size   : in     Window_Size_Type;
+      MSS           : in     Natural;
+      Window_Size   : in     Natural;
       Unacked       : in     Unacknowledged_Flag;
       New_Data      : in     Buffer_Type;
       Buffer        : in out Packet_Vectors.Vector;
@@ -111,8 +111,8 @@ package body Nagle is
 
    -- Minshall's Modification: Send if last packet is full-sized
    procedure Minshall_Nagle (
-      MSS           : in     MSS_Type;
-      Window_Size   : in     Window_Size_Type;
+      MSS           : in     Natural;
+      Window_Size   : in     Natural;
       Unacked       : in     Unacknowledged_Flag;
       New_Data      : in     Buffer_Type;
       Buffer        : in out Packet_Vectors.Vector;

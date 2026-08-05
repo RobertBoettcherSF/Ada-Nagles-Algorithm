@@ -10,10 +10,7 @@ with Ada.Containers.Vectors;
 
 package Nagle is
    -- Maximum Segment Size (default: 1460 bytes for Ethernet)
-   type MSS_Type is range 1 .. 65_535 with Default => 1460;
-
-   -- Window size (current TCP window in bytes)
-   type Window_Size_Type is range 0 .. 65_535;
+   Default_MSS : constant Natural := 1460;
 
    -- Byte type for packet data
    type Byte is mod 256;
@@ -46,8 +43,8 @@ package Nagle is
    -- Main procedures for each variant
    -- Original Nagle: Strict buffering until MSS or ACK
    procedure Original_Nagle (
-      MSS           : in     MSS_Type;
-      Window_Size   : in     Window_Size_Type;
+      MSS           : in     Natural;
+      Window_Size   : in     Natural;
       Unacked       : in     Unacknowledged_Flag;
       New_Data      : in     Buffer_Type;
       Buffer        : in out Packet_Vectors.Vector;
@@ -57,8 +54,8 @@ package Nagle is
 
    -- Minshall's Nagle: Send if last packet is full-sized
    procedure Minshall_Nagle (
-      MSS           : in     MSS_Type;
-      Window_Size   : in     Window_Size_Type;
+      MSS           : in     Natural;
+      Window_Size   : in     Natural;
       Unacked       : in     Unacknowledged_Flag;
       New_Data      : in     Buffer_Type;
       Buffer        : in out Packet_Vectors.Vector;
@@ -76,13 +73,13 @@ package Nagle is
    -- Helper: Check if buffer has enough data for MSS
    function Has_Enough_Data (
       Buffer : Packet_Vectors.Vector;
-      MSS    : MSS_Type
+      MSS    : Natural
    ) return Boolean;
 
    -- Helper: Merge small packets into a single MSS-sized packet
    function Merge_Packets (
       Buffer : Packet_Vectors.Vector;
-      MSS    : MSS_Type
+      MSS    : Natural
    ) return Packet;
 
    -- Helper: Simulate Delayed ACK interaction

@@ -24,8 +24,8 @@ procedure Tests is
    end Free_Test_Packet;
 
    -- Test data
-   MSS : constant MSS_Type := 1460;
-   Window_Size : constant Window_Size_Type := 2920;  -- 2 * MSS
+   MSS : constant Natural := 1460;
+   Window_Size : constant Natural := 2920;  -- 2 * MSS
    Empty_Buffer : Packet_Vectors.Vector;
    Small_Data : Buffer_Type := (1 => 1, 2 => 2, 3 => 3);  -- 3 bytes
    Full_Data : Buffer_Type(1 .. MSS) := (others => 0);
